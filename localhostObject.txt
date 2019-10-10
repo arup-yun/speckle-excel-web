@@ -1,0 +1,72 @@
+localStorage：
+
+登录用户列表对象（类型： 对象） KEY: (serverName,email)
+accountList：  { apiUrl, apiToken, email, password, serverName} 
+
+创建对象成功返回对象列表 （类型： 数组） 
+tableName+'Resource'： {type, 
+_id}
+
+创建对象成功 streams 返回对象 （类型： 对象） key： （streamId）
+streamsList： {streamId, id, 
+name, updatedAt（更新时间）, tableName(excel表名称)}
+
+创建表格表excel数据关系列表 （类型： 对象） key: （streamId）
+bindStreamsObj: {streamId}
+
+-----------------------------------------------------------------------------
+sessionStorage:
+
+// 当前创建streams的表名称 （类型： string）
+tableName: string
+
+// 当前用户选择的帐户唯一值  （类型： string）
+accountName : String    (serverName,email)
+
+// 当前用户选择的帐户信息 （类型： 对象） key: (serverName,email)   localStorage -> accountList 子对象
+accountObj: { apiUrl, apiToken, email, password, serverName} 
+
+// 当前选择表的对象数量 （类型： Number）
+tableName + 'Count':  Number
+
+// 本地定时器列表 （类型： 对象） key: (streamId)
+domTimerObj: {streamId: Number}   
+
+当前excel数据关系列表 （类型： 对象） key: （streamId）
+excelBindStreamsObj: {streamId}  
+
+---------------------------------------------------------------------------------
+数据改变对比思路
+
+1、数据修改回调
+onBindingDataChanged
+2、获取streams详情
+getStreamsDetail(bindingId,headerRangeValues,bodyRangeValues)
+3、根据情况对比数据
+checkObjects(streamId,objects,headerRangeArr, bodyRangeArr);
+  1.1 数据减少
+     //更新streams 
+     uploadStreams(''  (没有新增资源传空), { streamId: streamId, objects: queryObjects})
+     // 更新object
+     uploadObjects(streamId, nowObjects, headerRangeArr, bodyRangeArr);
+  1.2 数据增加
+     //更新streams 
+     createdObjects(addObjects, ''(分组名不用传), { streamId: streamId, objects: objects, headerRangeArr: headerRangeArr, bodyRangeArr: bodyRangeArr });
+     // 更新object
+     uploadObjects(streamId,queryObjects, headerRangeArr, bodyRangeArr);
+  1.3 数据增加
+     // 更新object
+     uploadObjects(streamId, objects, headerRangeArr, bodyRangeArr);
+
+--------------------------------------------------------------------
+  //更新streams 
+  uploadStreams(resources（new object）, streamObj(streamId, objects, headerRangeArr, bodyRangeArr ))
+  // 更新object
+  uploadObjects(streamId, queryObjects, headerRangeArr, bodyRangeArr)
+     editObject(objectId, streamId, headerRangeArr, bodyRangeArr, uploadNum)
+       checkObjectForUpload(objects, headerRangeArr, bodyRangeArr[index])
+  
+
+
+
+ 
